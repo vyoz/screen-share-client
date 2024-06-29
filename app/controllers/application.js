@@ -57,19 +57,35 @@ export default class ApplicationController extends Controller {
 
   @action
   async shareScreen() {
-    this.localStream = await navigator.mediaDevices.getDisplayMedia({
-      video: true,
-    });
-    this.log += 'Started screen sharing\n';
-    await this.createPeerConnection();
-    this.localStream
-      .getTracks()
-      .forEach((track) =>
-        this.peerConnection.addTrack(track, this.localStream),
-      );
-    const offer = await this.peerConnection.createOffer();
-    await this.peerConnection.setLocalDescription(offer);
-    this.socket.emit('offer', offer);
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getDisplayMedia) {
+        this.log += 'Screen sharing is not supported in this browser.\n';
+        console.log('Screen sharing is not supported in this browser.');
+        return;
+    }
+    try {
+        this.localStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+        this.log += 'Started screen sharing\n';
+        console.log('Start screen sharing');
+        await this.createPeerConnection();
+        this.localStream.getTracks().forEach(track => this.peerConnection.addTrack(track, this.localStream));
+        const offer = await this.peerConnection.createOffer();
+        await this.peerConnection.setLocalDescription(offer);
+        this.socket.emit('offer', offer);
+    } catch (error) {
+        this.log += `Error starting screen sharing: ${error.message}\n`;
+        console.log(`Error starting screen sharing: ${error.message}`);
+
+        if (error.name === 'NotAllowedError') {
+          this.log += 'Screen sharing was not allowed by the user.\n';
+          console.log('Screen sharing was not allowed by the user.');
+        } else if (error.name === 'NotFoundError') {
+          this.log += 'No screen sharing sources were found.\n';
+          console.log('No screen sharing sources were found.');
+        } else {
+          this.log += `Error starting screen sharing: ${error.message}\n`;
+          console.log(`Error starting screen sharing: ${error.message}`);
+        }
+    }
   }
 
   @action
