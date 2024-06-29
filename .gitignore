@@ -24,5 +24,7 @@
 # broccoli-debug
 /DEBUG/
 
-electron-app/
+electron-app/node_modules/
+electron-app/ember-dist/
+electron-app/out/
 tmp/
