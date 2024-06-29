@@ -1,7 +1,14 @@
 {{page-title "ScreenShareClient"}}
 
-{{! The following component displays Ember's default welcome message. }}
-<WelcomePage />
-{{! Feel free to remove this! }}
+<div>
+  <h1>Hello world with Ember.js and Elector for testing</h1>
+  <input type="text" placeholder="Enter client name" {{on "input" this.updateClientName}} />
+  <button type="button" {{on "click" this.connect}}>Connect</button>
+  <button type="button" {{on "click" this.disconnect}}>Disconnect</button>
+  <button type="button" {{on "click" this.shareScreen}}>Share Screen</button>
+  <button type="button" {{on "click" this.stopSharing}}>Stop Sharing</button><br>
+  <video id="remoteVideo" autoplay></video><br>
+  <textarea readonly>{{this.log}}</textarea><br>
+  <p>{{this.message}}</p>
+</div>
 
-{{outlet}}

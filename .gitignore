@@ -23,3 +23,6 @@
 
 # broccoli-debug
 /DEBUG/
+
+electron-app/
+tmp/

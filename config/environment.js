@@ -4,8 +4,16 @@ module.exports = function (environment) {
   const ENV = {
     modulePrefix: 'screen-share-client',
     environment,
-    rootURL: '/',
-    locationType: 'history',
+    rootURL: process.env.EMBER_CLI_ELECTRON
+      ? ''
+      : process.env.EMBER_CLI_ELECTRON
+        ? ''
+        : '/',
+    locationType: process.env.EMBER_CLI_ELECTRON
+      ? 'hash'
+      : process.env.EMBER_CLI_ELECTRON
+        ? 'hash'
+        : 'history',
     EmberENV: {
       EXTEND_PROTOTYPES: false,
       FEATURES: {

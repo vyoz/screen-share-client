@@ -1,9 +1,10 @@
 {
   "name": "screen-share-client",
-  "version": "0.0.0",
+  "version": "0.9.0",
   "private": true,
-  "description": "Small description for screen-share-client goes here",
+  "description": "screen-share-client build with EmberJS and Electron",
   "repository": "",
+  "main": "electron.js",
   "license": "MIT",
   "author": "",
   "directories": {
@@ -21,6 +22,8 @@
     "lint:js": "eslint . --cache",
     "lint:js:fix": "eslint . --fix",
     "start": "ember serve",
+    "electron": "ember electron",
+    "package": "electron-packager . screen-share-client --platform=win32,darwin,linux --arch=x64 --out=dist --overwrite --ignore=node_modules --app-version=0.9.0",
     "test": "concurrently \"npm:lint\" \"npm:test:*\" --names \"lint,test:\"",
     "test:ember": "ember test"
   },
@@ -35,6 +38,9 @@
     "@glimmer/tracking": "^1.1.2",
     "broccoli-asset-rev": "^3.0.0",
     "concurrently": "^8.2.2",
+    "electron-builder": "^24.13.3",
+    "electron-debug": "^4.0.0",
+    "electron-packager": "^17.1.2",
     "ember-auto-import": "^2.7.3",
     "ember-cli": "~5.9.0",
     "ember-cli-app-version": "^6.0.1",
@@ -46,6 +52,7 @@
     "ember-cli-sri": "^2.1.1",
     "ember-cli-terser": "^4.0.2",
     "ember-data": "~5.3.3",
+    "ember-electron": "^7.0.0",
     "ember-fetch": "^8.1.2",
     "ember-load-initializers": "^2.1.2",
     "ember-modifier": "^4.1.0",
@@ -71,10 +78,44 @@
     "tracked-built-ins": "^3.3.0",
     "webpack": "^5.91.0"
   },
+  "build": {
+    "appId": "com.vyoz.screenshare",
+    "productName": "Screen Share Client",
+    "files": [
+      "dist/",
+      "ember-electron/"
+    ],
+    "directories": {
+      "buildResources": "build"
+    },
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ]
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "zip"
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb",
+	"rpm"
+      ]
+    }
+  },
   "engines": {
     "node": ">= 18"
   },
   "ember": {
     "edition": "octane"
+  },
+  "dependencies": {
+    "electron-log": "^5.1.5",
+    "socket.io-client": "^4.7.5"
   }
 }
