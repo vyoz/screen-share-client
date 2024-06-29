@@ -17,6 +17,7 @@ You will need the following things properly installed on your computer.
 - `git clone <repository-url>` this repository
 - `cd screen-share-client`
 - `npm install`
+- `npm install -g ember-cli`
 
 ## Running / Development
 
